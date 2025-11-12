@@ -6,6 +6,9 @@ from pathlib import Path
 from typing import List, Optional, Union, Dict
 import polars as pl
 import pooch
+import zipfile
+from zipfile import BadZipFile
+import struct
 from pooch import HTTPDownloader
 
 from polars_readstat import scan_readstat
@@ -19,8 +22,9 @@ def load_from_url(
     url: str,
     save_name: str = "",
     cache_dir: Path = "", 
-    force_reload: bool = False
-) -> Union[pl.LazyFrame, Dict[pl.LazyFrame]]:
+    force_reload: bool = False,
+    no_data_error:bool=True
+) -> Union[pl.LazyFrame, Dict[pl.LazyFrame], List[str]]:
     """
     Download file from URL, convert to parquet, and cache.
     
@@ -130,7 +134,17 @@ def load_from_url(
                 other_files.append(f)
         
         if len(data_files) == 0:
-            raise ValueError(f"No data files found in download from {url}")
+            if no_data_error and len(other_files):
+                raise ValueError(f"No data files found in download from {url}")
+            else:
+                other_files_final = []
+                path_save.mkdir(parents=True, exist_ok=True)
+                for other_file in other_files:
+                    if other_file.parent != path_save:
+                        shutil.move(str(other_file), str(path_save / other_file.name))
+                        other_files_final.append(str(path_save / other_file.name))
+        
+                return other_files_final
         
         # Convert to parquet and organize
         if len(data_files) == 1:
@@ -195,12 +209,56 @@ def load_from_url(
         if temp_dir.exists():
             shutil.rmtree(temp_dir)
 
+
+class LenientUnzip(pooch.Unzip):
+    """
+    Unzip processor that handles corrupt extra fields in older ZIP files.
+    
+    Some legacy ZIP files have malformed extra field metadata (e.g., field 0x0ca0
+    with invalid sizes) that causes BadZipFile exceptions. This processor
+    monkey-patches zipfile to ignore these corrupt fields during extraction.
+    """
+
+    def __call__(self, fname, action, pooch_instance):
+        # Monkey-patch both _decodeExtra and the ZipFile class
+        _original_decode = zipfile.ZipInfo._decodeExtra
+        _original_zipfile_init = zipfile.ZipFile.__init__
+        
+        def _lenient_decode(zip_info_self, *args, **kwargs):
+            try:
+                _original_decode(zip_info_self, *args, **kwargs)
+            except Exception:
+                zip_info_self.extra = b''
+        
+        def _lenient_init(self, *args, **kwargs):
+            try:
+                _original_zipfile_init(self, *args, **kwargs)
+            except BadZipFile as e:
+                if "Corrupt extra field" in str(e):
+                    # Try to open with strict=False or handle it
+                    kwargs['strict_timestamps'] = False
+                    _original_zipfile_init(self, *args, **kwargs)
+                else:
+                    raise
+        
+        zipfile.ZipInfo._decodeExtra = _lenient_decode
+        zipfile.ZipFile.__init__ = _lenient_init
+        
+        try:
+            return super().__call__(fname, action, pooch_instance)
+        finally:
+            # Restore originals
+            zipfile.ZipInfo._decodeExtra = _original_decode
+            zipfile.ZipFile.__init__ = _original_zipfile_init
+
+
+
 def _get_processor(url: str) -> Optional[any]:
     """Determine the appropriate pooch processor based on URL extension"""
     url_lower = url.lower()
     
     if url_lower.endswith('.zip'):
-        return pooch.Unzip()
+        return LenientUnzip()
     elif url_lower.endswith(('.tar.gz', '.tgz')):
         return pooch.Untar()
     elif url_lower.endswith('.tar'):
@@ -211,8 +269,7 @@ def _get_processor(url: str) -> Optional[any]:
         return pooch.Decompress()
     else:
         return None
-
-
+    
 def _is_data_file(file_path: Path) -> bool:
     """Check if file is a data file that should be converted"""
     data_extensions = {'.csv', '.dta', '.sas7bdat', '.sav', '.parquet', '.xlsx', '.xls'}
@@ -249,4 +306,5 @@ def download_with_user_agent():
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     }
-    return HTTPDownloader(headers=headers)
+    return HTTPDownloader(headers=headers,
+                          timeout=120)

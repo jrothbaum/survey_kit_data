@@ -1303,44 +1303,6 @@ wheels = [
 ]
 
 [[package]]
-name = "patool"
-version = "1.15.0"
-source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version < '3.10'",
-]
-sdist = { url = "https://files.pythonhosted.org/packages/b7/b1/b32e5646619d5fb3cf57e635f076146e99fb02acfcd6afad78dcda8c9bfc/patool-1.15.0.tar.gz", hash = "sha256:d94814a1c92d111089001f6a67b058de29ae7033e172503af1acb452048c8a69", size = 1993753, upload-time = "2023-10-28T08:22:35.999Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/f4/f0/cee07d9fee3ac4b846fb44eca856142a7bcf44be83e221c4d698fec449d9/patool-1.15.0-py2.py3-none-any.whl", hash = "sha256:b14fd047571f71220de5d220bac9974fa2f423cce3c42cf0a85f54f155c30f09", size = 91064, upload-time = "2023-10-28T08:22:32.712Z" },
-]
-
-[[package]]
-name = "patool"
-version = "4.0.1"
-source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version == '3.10.*'",
-]
-sdist = { url = "https://files.pythonhosted.org/packages/93/c7/f9d5c6f9c51433d95399e40c9dd214f2b44bdcb79cbbd86028f55535725e/patool-4.0.1.tar.gz", hash = "sha256:41f7ee21be337a5baf07b2cb4796e9d94397ab741d2379c622f98fc001099802", size = 2006713, upload-time = "2025-05-02T19:08:16.768Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/d2/07/a7aefd5b3ee565b4d959bcf7061666c7fbf66ed83e58d07cdcdca35c9b33/patool-4.0.1-py2.py3-none-any.whl", hash = "sha256:a7430eb08edcbd71feaf9c40f55c46f6a0ac385dc68dd0f5010cfa4ad2e9341a", size = 86512, upload-time = "2025-05-02T19:08:19.407Z" },
-]
-
-[[package]]
-name = "patool"
-version = "4.0.2"
-source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version >= '3.13'",
-    "python_full_version == '3.12.*'",
-    "python_full_version == '3.11.*'",
-]
-sdist = { url = "https://files.pythonhosted.org/packages/26/3e/9537c0921cddfb84f786ad6808d7b9edcee1cf606a53d0d7272fb27487d5/patool-4.0.2.tar.gz", hash = "sha256:e7f62d222f4a8a6c48dbfb38056dc7f9e5778ccc07c1f16d9653a316812f83ba", size = 2008032, upload-time = "2025-10-14T10:23:43.471Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/73/4f/f10aab9f5f1ede8dd9279faa96d16129fad45d6d10f0e564a3ca8828f364/patool-4.0.2-py2.py3-none-any.whl", hash = "sha256:c9324757cbd7d2f468bc50a93319cd63c28ca679a5c61bd89b9aedd52d15ef71", size = 87931, upload-time = "2025-10-14T10:23:46.693Z" },
-]
-
-[[package]]
 name = "platformdirs"
 version = "4.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2087,7 +2049,7 @@ wheels = [
 
 [[package]]
 name = "survey-kit"
-version = "0.1.1"
+version = "0.1.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cffi" },
@@ -2113,21 +2075,18 @@ dependencies = [
     { name = "scipy", version = "1.16.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "sparse-dot-mkl" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/89/12/c60b03867b178644a6007e8f6e146ff09c55967ab70da87ede274ec218d5/survey_kit-0.1.1.tar.gz", hash = "sha256:64ba480e281966cb26f8b9c183fbf55e553b60c4fd107146fd9443ce39adebf8", size = 3363418, upload-time = "2025-11-07T19:23:54.604Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/85/15/1f7517dbd7e3735e514334f8030499d8b649267fae86fc35bac0504f74a4/survey_kit-0.1.2.tar.gz", hash = "sha256:a6c07f83ce0d87c657f4015e8d952cfba25917a007eaa1dade403f352d7fa68b", size = 3786639, upload-time = "2025-11-11T14:37:52.826Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/38/ee/58132bc1e93e1452eae4eced614ba041055337d93c77c58cee2e8b7a0f99/survey_kit-0.1.1-py3-none-any.whl", hash = "sha256:721bcdab3b3e6f82c02a561b5fab0ca51949207e16894aa740f4fb84a92de1a5", size = 241816, upload-time = "2025-11-07T19:23:53.056Z" },
+    { url = "https://files.pythonhosted.org/packages/26/f3/5ddab2f553d9073bea53423f6f1106dadc339588f8259a8cfb0dbaddba9d/survey_kit-0.1.2-py3-none-any.whl", hash = "sha256:9e4a00507b238ec90bbbc54a42f0f4f98781dbb0a3aba93804818b1c2353057d", size = 242118, upload-time = "2025-11-11T14:37:51.409Z" },
 ]
 
 [[package]]
 name = "survey-kit-data"
-version = "0.1.1"
+version = "0.1.2"
 source = { editable = "." }
 dependencies = [
     { name = "census" },
     { name = "load-dotenv" },
-    { name = "patool", version = "1.15.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
-    { name = "patool", version = "4.0.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
-    { name = "patool", version = "4.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "polars" },
     { name = "polars-readstat" },
     { name = "pooch" },
@@ -2146,8 +2105,7 @@ dev = [
 requires-dist = [
     { name = "census", specifier = ">=0.8.24" },
     { name = "load-dotenv", specifier = ">=0.1.0" },
-    { name = "patool", specifier = ">=1.15.0" },
-    { name = "polars", specifier = ">=1.35.1" },
+    { name = "polars", specifier = ">=1.23.2" },
     { name = "polars-readstat", specifier = ">=0.8.2" },
     { name = "pooch", specifier = ">=1.8.2" },
     { name = "requests", specifier = ">=2.32.5" },
@@ -2157,7 +2115,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "ruff", specifier = ">=0.14.4" },
-    { name = "survey-kit", specifier = ">=0.1.1" },
+    { name = "survey-kit", specifier = ">=0.1.2" },
     { name = "us", specifier = ">=3.2.0" },
 ]
 

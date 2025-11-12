@@ -14,5 +14,5 @@ config = Config()
 config.code_root = os.path.dirname(__file__)
 
 if config.data_root == "":
-    config.data_root = Path(config.code_root).as_posix().replace("/src/survey_kit","") + "/.scratch"
+    config.data_root = Path(config.code_root).as_posix().replace("/src/survey_kit_data","") + "/.scratch"
 

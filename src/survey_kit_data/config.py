@@ -101,13 +101,14 @@ class Config:
     _path_cache_files_key = "_survey_kit_data_path_cache_files_"
 
     #   api keys
-    _api_key_census_key = "_survey_kit_data_api_census_"
-    _api_key_fred_key = "_survey_kit_data_api_fred_"
-    
+    _api_key_census_key = "survey_kit_data_api_census"
+    _api_key_fred_key = "survey_kit_data_api_fred"
+    _api_key_ipums_key = "survey_kit_data_api_ipums"
     code_root = TypedEnvVar(_code_root_key, default="", convert=str)
     data_root = TypedEnvVar(_data_root_key, default="", convert=str)
     cpus = TypedEnvVar(_cpus_key, os.cpu_count(), int)
     api_key_census = TypedEnvVar(_api_key_census_key, default="",convert=str)
+    api_key_ipums = TypedEnvVar(_api_key_ipums_key, default="",convert=str)
     api_key_fred = TypedEnvVar(_api_key_fred_key, default="",convert=str)
     _path_cache_files = TypedEnvVar(_path_cache_files_key, "", str)
     

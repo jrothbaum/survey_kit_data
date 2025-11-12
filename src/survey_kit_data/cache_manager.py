@@ -6,7 +6,6 @@ import os
 import hashlib
 from pathlib import Path
 from typing import Dict
-import patoolib
 
 class FileCacheManager:
     """
@@ -33,10 +32,14 @@ class FileCacheManager:
 
     def _generate_source_hash(self) -> str:
         """Generates the unique hash based on the stored call_signature."""
+
+        call_name = ""
+        if self.api_call is not None:
+            call_name = self.api_call.__name__
         call_signature = str(
             dict(
                 url=self.url,
-                api_call=self.api_call,
+                api_call=call_name,
                 api_args=self.api_args
             )
         )
