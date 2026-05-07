@@ -1,11 +1,12 @@
 # survey_data/api_factory.py
 import hashlib
+import json
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 import polars as pl
 
 from .cache_manager import FileCacheManager
-from . import config, logger
+from . import config
 
 
 class APIFactory:
@@ -99,3 +100,20 @@ class APIFactory:
                 return cached_method
         
         return CachedWrapper()
+
+    def _make_cache_key(
+        self,
+        api_name: str,
+        method_name: str,
+        args: tuple[Any, ...],
+        kwargs: dict[str, Any],
+    ) -> str:
+        payload = {
+            "api": api_name,
+            "method": method_name,
+            "args": args,
+            "kwargs": kwargs,
+        }
+        raw_key = json.dumps(payload, sort_keys=True, default=repr)
+        digest = hashlib.sha256(raw_key.encode("utf-8")).hexdigest()
+        return f"{api_name}_{method_name}_{digest}"

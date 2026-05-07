@@ -3,7 +3,7 @@ name = "survey-kit-data"
 version = "0.1.2"
 description = "Tools for working with survey and other data"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.09"
 
 license = {text = "CC0 1.0 Universal"}
 authors = [
@@ -21,14 +21,12 @@ classifiers = [
 ]
 
 dependencies = [
-    "census>=0.8.24",
     "load-dotenv>=0.1.0",
-    "polars>=1.40.1",
+    "polars>=1.33.1",
     "polars-readstat>=0.16.1",
     "pooch>=1.8.2",
     "requests>=2.32.5",
     "tqdm>=4.67.1",
-    "fredapi>=0.5.2",
 ]
 
 [build-system]
