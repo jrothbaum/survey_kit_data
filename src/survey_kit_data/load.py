@@ -21,9 +21,10 @@ from . import config, logger
 def load_from_url(
     url: str,
     save_name: str = "",
-    cache_dir: Path = "", 
+    cache_dir: Path = "",
     force_reload: bool = False,
-    no_data_error:bool=True
+    no_data_error: bool = True,
+    reload_if_updated: bool = True,
 ) -> Union[pl.LazyFrame, Dict[pl.LazyFrame], List[str]]:
     """
     Download file from URL, convert to parquet, and cache.
@@ -80,7 +81,7 @@ def load_from_url(
     )
     
     # Check cache
-    if fcm.is_cached() and not force_reload:
+    if not force_reload and fcm.is_cached(reload_if_updated=reload_if_updated):
         # Check if it's a directory (multiple files) or single file
         logger.info("Loading from cached data")
         if path_save.is_dir():

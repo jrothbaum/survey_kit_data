@@ -21,6 +21,7 @@ classifiers = [
 ]
 
 dependencies = [
+    "fastexcel>=0.16.0",
     "load-dotenv>=0.1.0",
     "polars>=1.33.1",
     "polars-readstat>=0.16.1",
