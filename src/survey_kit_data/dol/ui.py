@@ -128,13 +128,13 @@ def _download_csv(url: str) -> tuple[bytes, dict]:
     return response.content, dict(response.headers)
 
 
-def eta203(
+def insured_unemployed_characteristics(
     force_reload: bool = False,
     url: Optional[str] = None,
     reload_if_updated: bool = True,
 ) -> pl.LazyFrame:
     """
-    ETA 203 – Characteristics of the Insured Unemployed, monthly by state.
+    DOL ETA 203: Characteristics of the Insured Unemployed, monthly by state.
 
     Source: https://oui.doleta.gov/unemploy/DataDownloads.asp
     Coverage: ~1994–present.
@@ -183,13 +183,13 @@ def eta203(
     return pl.scan_parquet(parquet_path)
 
 
-def eta539(
+def weekly_ui_claims(
     force_reload: bool = False,
     url: Optional[str] = None,
     reload_if_updated: bool = True,
 ) -> pl.LazyFrame:
     """
-    ETA 539 – Claims and Extended Benefits Data, weekly by state.
+    DOL ETA 539: Claims and Extended Benefits Data, weekly by state.
 
     Source: https://oui.doleta.gov/unemploy/DataDownloads.asp
     Coverage: 1986–present.

@@ -17,6 +17,7 @@ from ..geo import state_fips as _state_fips
 
 def _join_state_fips(lf: pl.LazyFrame, join_on: str) -> pl.LazyFrame:
     fips = _state_fips().rename({"state_name": join_on}).select([join_on, "state_abbr", pl.col("fips").alias("state_fips")])
+    lf = lf.with_columns(pl.col(join_on).str.strip_chars().alias(join_on))
     return lf.join(fips, on=join_on, how="left")
 
 
@@ -107,6 +108,7 @@ def _parse_snap_sheet(raw: pl.DataFrame) -> pl.DataFrame:
     )
 
     # Cast every column except the first (geography/period label) to Float64
+    df = df.with_columns(pl.col(unique_names[0]).str.strip_chars().alias(unique_names[0]))
     numeric_cols = unique_names[1:]
     df = df.with_columns(
         [pl.col(c).cast(pl.Float64, strict=False) for c in numeric_cols]
@@ -377,6 +379,9 @@ def _parse_state_sheet(df: pl.DataFrame, fiscal_year: int, region: str) -> list[
             for p in ("National", "SNAP Monthly", "Fiscal Year", "1.", "ALL DATA", "Footnote")
         ):
             continue
+        if label in _REGIONAL_SHEETS:
+            current_state = None
+            continue
         # Skip aggregate and separator rows
         if label.startswith("Total") or set(label) <= {"-", " "}:
             continue
@@ -560,6 +565,7 @@ def _parse_county_sheet(df: pl.DataFrame, year: int, month: int) -> Optional[pl.
     data = data.filter(
         pl.col(first_col).is_not_null()
         & ~pl.col(first_col).str.starts_with("U.S. Summary")
+        & ~pl.col(first_col).str.starts_with("Data is")
         & ~pl.col(first_col).str.starts_with("a ")
         & ~pl.col(first_col).str.starts_with("Automated")
     )
@@ -570,6 +576,8 @@ def _parse_county_sheet(df: pl.DataFrame, year: int, month: int) -> Optional[pl.
         pl.col(first_col).str.extract(r"^\d+\s*\n?(.+)$", group_index=1)
             .str.replace_all(r"\n", " ").str.strip_chars().alias("substate_name"),
     ]).drop(first_col)
+
+    data = data.filter(pl.col("substate_code").is_not_null())
 
     # Cast all remaining columns to numeric where possible
     for col in data.columns:
