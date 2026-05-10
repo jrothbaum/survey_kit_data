@@ -1,0 +1,32 @@
+site_name: survey-kit-data
+site_description: Polars loaders for public survey, administrative, and economic data.
+repo_url: https://github.com/jrothbaum/survey-kit-data
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: cyan
+    - scheme: slate
+      primary: indigo
+      accent: cyan
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.suggest
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - How It Works: how-it-works.md
+  - Data Sources: data-sources.md
+  - API: api.md
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true

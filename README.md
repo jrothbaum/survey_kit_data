@@ -109,6 +109,17 @@ df = acs5_income(year=2022, geo_for="state:*").collect()
 
 See the [`examples/`](examples/) directory for fuller usage including replicate-weight standard errors and multiple imputation.
 
+## Documentation
+
+The documentation is drafted with MkDocs:
+
+```bash
+uv run --group docs mkdocs serve
+```
+
+The docs cover the package design, cache behavior, available data sources, and
+the current public loader API.
+
 ## License
 
 CC0 1.0 Universal
