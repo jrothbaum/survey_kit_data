@@ -2,6 +2,8 @@
 
 Python library for loading U.S. government survey and economic data into [Polars](https://pola.rs/) DataFrames. It wraps the download, parsing, and light reshaping for a handful of major public datasets — CPS, SCF, CEX, FRED, SNAP, and others — so you can get to analysis without tracking down file formats or agency-specific APIs. Downloads are cached locally so repeated calls skip re-downloading.
 
+Documentation is available at <https://jrothbaum.github.io/survey_kit_data/>.
+
 ## Data sources
 
 | Agency | Data |
@@ -108,17 +110,6 @@ df = acs5_income(year=2022, geo_for="state:*").collect()
 ```
 
 See the [`examples/`](examples/) directory for fuller usage including replicate-weight standard errors and multiple imputation.
-
-## Documentation
-
-The documentation is drafted with MkDocs:
-
-```bash
-uv run --group docs mkdocs serve
-```
-
-The docs cover the package design, cache behavior, available data sources, and
-the current public loader API.
 
 ## License
 
