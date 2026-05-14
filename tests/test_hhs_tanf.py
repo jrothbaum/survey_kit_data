@@ -445,6 +445,48 @@ class HHSTANFDiscoveryTest(unittest.TestCase):
         self.assertEqual(hawaii_ssp["source_sheet"], "70")
         self.assertAlmostEqual(hawaii_ssp["estimated_annual_cash_assistance"], 5742417.6)
 
+    def test_github_download_mirror_reads_financial_workbook(self) -> None:
+        old_cache = config.path_cache_files
+        with tempfile.TemporaryDirectory() as tmp:
+            config.path_cache_files = tmp
+            basic = tanf_basic_assistance(
+                years=[2023],
+                force_reload=True,
+                reload_if_updated=False,
+                download_mirror="jrothbaum/survey_kit_download",
+                download_mirror_mode="only",
+                include_source=True,
+            ).collect()
+        config.path_cache_files = old_cache
+
+        alabama = basic.filter(pl.col("state") == "Alabama").row(0, named=True)
+        self.assertEqual(alabama["source_sheet"], "Alabama")
+        self.assertAlmostEqual(alabama["all_funds"], 25876656.81)
+
+    def test_github_download_mirror_reads_characteristics_text(self) -> None:
+        old_cache = config.path_cache_files
+        with tempfile.TemporaryDirectory() as tmp, patch(
+            "survey_kit_data.hhs.tanf._read_pdf_text",
+            side_effect=AssertionError("github mirror text should be used before local pdftotext"),
+        ):
+            config.path_cache_files = tmp
+            estimates = tanf_cash_assistance_estimates(
+                years=[2008],
+                force_reload=True,
+                reload_if_updated=False,
+                download_mirror="jrothbaum/survey_kit_download",
+                download_mirror_mode="only",
+                include_source=True,
+            ).collect()
+        config.path_cache_files = old_cache
+
+        alabama = estimates.filter(
+            (pl.col("source_program") == "tanf")
+            & (pl.col("state") == "Alabama")
+        ).row(0, named=True)
+        self.assertEqual(alabama["source_sheet"], "41")
+        self.assertAlmostEqual(alabama["estimated_annual_cash_assistance"], 41040580.08)
+
 
 if __name__ == "__main__":
     unittest.main()
