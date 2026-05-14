@@ -96,8 +96,8 @@ mirror does not have the file:
 ```python
 tanf = tanf_caseload(
     years=[2025],
-    download_mirror="../survey_kit_download",      # local checkout
-    # download_mirror="your-org/survey-kit-download",  # GitHub raw mirror
+    download_mirror="jrothbaum/survey_kit_download",  # GitHub raw mirror
+    # download_mirror="../survey_kit_download",        # local checkout
     # include_source=True,  # add source_url/source_sheet audit columns
     # include_fips=False,   # omit state_fips column
 )

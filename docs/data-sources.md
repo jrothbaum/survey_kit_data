@@ -110,7 +110,7 @@ from survey_kit_data.hhs.tanf import tanf_caseload
 
 tanf = tanf_caseload(
     years=[2021, 2022],
-    download_mirror="../survey_kit_download",
+    download_mirror="jrothbaum/survey_kit_download",
 ).collect()
 
 state_totals = (
@@ -129,7 +129,7 @@ from survey_kit_data.hhs.tanf import tanf_caseload_source_sheets
 
 sheets = tanf_caseload_source_sheets(
     years=[2025],
-    download_mirror="../survey_kit_download",
+    download_mirror="jrothbaum/survey_kit_download",
 )
 print(sheets.keys())
 ```

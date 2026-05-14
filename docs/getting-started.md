@@ -66,7 +66,7 @@ from survey_kit_data.hhs.tanf import tanf_caseload
 
 tanf = tanf_caseload(
     years=[2021],
-    download_mirror="../survey_kit_download",
+    download_mirror="jrothbaum/survey_kit_download",
     download_mirror_mode="prefer",
 )
 ```
